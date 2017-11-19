@@ -27,7 +27,7 @@ This normalised heatmap is then used to produce a tensor of shape `[batch, x, y]
 coords = dsnt.dsnt_layer(my_tensor)
 ```
 
-The loss function must be composed of two components. Mean-Squared-Error for the coordinate regression, and Jensen-Shannons Divergence for regularization.
+The loss function must be composed of two components. Mean-Squared-Error for the coordinate regression, and Jensen-Shannon Divergence for regularization.
 ```
 # Coordinate regression loss
 loss_1 = tf.losses.mean_squared_error(targets, predictions)

@@ -9,15 +9,13 @@ A Tensorflow implementation of the DSNT layer, as taken from the paper "Numerica
 
 
 ### Example usage:
-The layer can be inserted at the end of a stack of convolutional layers, where the final tensor shape is `[batch, height, width, 1]`.
-
-
 Begin by importing the module:
 ```
 import dsnt
 ```
 
-The tensor must then be first rectified/normalised using one of the supported methods:
+The layer can be inserted at the end of a stack of convolutional layers, where the final tensor shape is `[batch, height, width, 1]`.
+The tensor must first be rectified/normalised. There are different rectification methods available, which can be provided as an additional argument:
 ```
 my_tensor = dsnt.normalise_heatmap(my_tensor)
 ```

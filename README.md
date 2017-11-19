@@ -15,15 +15,12 @@ import dsnt
 ```
 
 The layer can be inserted at the end of a stack of convolutional layers, where the final tensor shape is `[batch, height, width, 1]`.
-The tensor must first be rectified/normalised. There are different rectification methods available, which can be provided as an additional argument:
+The function's input tensor will be rectified, then passed through the transform. `dsnt.dsnt` returns the rectified input heatmaps and the produced coordinates tensor of shape `[batch, x, y]`:
 ```
-my_tensor = dsnt.normalise_heatmap(my_tensor)
+norm_heatmaps, coords = dsnt.dsnt(my_tensor)
 ```
+There are different rectification methods available, which can be provided as an additional argument, e.g: `dsnt.normalise_heatmap(my_tensor, 'relu')`
 
-This normalised heatmap is then used to produce a tensor of shape `[batch, x, y]` by passing it through a DSNT layer:
-```
-coords = dsnt.dsnt_layer(my_tensor)
-```
 
 The loss function must be composed of two components. Mean-Squared-Error for the coordinate regression, and Jensen-Shannon Divergence for regularization.
 ```

@@ -19,7 +19,7 @@ The function's input tensor will be rectified, then passed through the transform
 ```
 norm_heatmaps, coords = dsnt.dsnt(my_tensor)
 ```
-There are different rectification methods available, which can be provided as an additional argument, e.g: `dsnt.normalise_heatmap(my_tensor, 'relu')`
+There are different rectification methods available, which can be provided as an additional argument, e.g: `dsnt.dsnt(my_tensor, 'relu')`
 
 
 The loss function must be composed of two components. Mean-Squared-Error for the coordinate regression, and Jensen-Shannon Divergence for regularization.

@@ -1,5 +1,5 @@
 # Differentiable Spatial to Numerical Transform
-An example of the usage of the DSNT layer, as taken from the paper "Numerical Coordinate Regression with Convolutional Neural Networks".
+A Tensorflow implementation of the DSNT layer, as taken from the paper "Numerical Coordinate Regression with Convolutional Neural Networks".
 
 ### Provided Files:
 

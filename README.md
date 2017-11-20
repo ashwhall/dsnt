@@ -25,9 +25,9 @@ There are different rectification methods available, which can be provided as an
 The loss function must be composed of two components. Mean-Squared-Error or similar for the coordinate regression, and Jensen-Shannon Divergence for regularization.
 ```
 # Coordinate regression loss
-loss_1 = tf.losses.mean_squared_error(input_y, predictions)
+loss_1 = tf.losses.mean_squared_error(targets, coords)
 # Regularization loss
-loss_2 = dsnt.js_reg_loss(heatmaps, input_y)
+loss_2 = dsnt.js_reg_loss(norm_heatmaps, targets)
 
 loss = loss_1 + loss_2
 ```

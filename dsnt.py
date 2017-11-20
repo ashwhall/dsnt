@@ -47,7 +47,7 @@ def js_reg_loss(heatmaps, centres):
     '''
     gauss = _make_gaussians(centres, tf.shape(heatmaps)[1], tf.shape(heatmaps)[2])
     divergences = _js_2d(heatmaps, gauss)
-    return tf.reduce_mean(divergences), gauss
+    return tf.reduce_mean(divergences)
 
 
 def _normalise_heatmap(inputs, method='softmax'):
@@ -108,6 +108,7 @@ def _make_gaussian(size, centre, fwhm=1):
         Makes a rectangular gaussian kernel.
         Arguments:
             size - A 2d tensor representing [height, width]
+            centre - Pair of (normalised [0, 1]) x, y coordinates 
             fwhm - Full-width-half-maximum, which can be thought of as a radius.
         '''
         square_size = tf.cast(tf.reduce_max(size), tf.float32)

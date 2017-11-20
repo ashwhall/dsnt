@@ -22,13 +22,12 @@ norm_heatmaps, coords = dsnt.dsnt(my_tensor)
 There are different rectification methods available, which can be provided as an additional argument, e.g: `dsnt.normalise_heatmap(my_tensor, 'relu')`
 
 
-The loss function must be composed of two components. Mean-Squared-Error for the coordinate regression, and Jensen-Shannon Divergence for regularization.
+The loss function must be composed of two components. Mean-Squared-Error or similar for the coordinate regression, and Jensen-Shannon Divergence for regularization.
 ```
 # Coordinate regression loss
-loss_1 = tf.losses.mean_squared_error(targets, predictions)
-# Regularization loss - in this example the targets are in range [0, 1], 
-# but need to be in range [-1, 1] for the regularization loss
-loss_2, target_gauss = dsnt.js_reg_loss(heatmaps, (targets + 1) / 2)
+loss_1 = tf.losses.mean_squared_error(input_y, predictions)
+# Regularization loss
+loss_2 = dsnt.js_reg_loss(heatmaps, input_y)
 
 loss = loss_1 + loss_2
 ```

@@ -19,7 +19,9 @@ The function's input tensor will be rectified, then passed through the transform
 ```
 norm_heatmaps, coords = dsnt.dsnt(my_tensor)
 ```
-There are different rectification methods available, which can be provided as an additional argument, e.g: `dsnt.dsnt(my_tensor, 'relu')`
+
+There are different rectification methods available, which can be provided as an additional argument, e.g: `dsnt.dsnt(my_tensor, method='relu')`
+
 
 
 The loss function must be composed of two components. Mean-Squared-Error or similar for the coordinate regression, and Jensen-Shannon Divergence for regularization.
@@ -31,3 +33,4 @@ loss_2 = dsnt.js_reg_loss(norm_heatmaps, targets)
 
 loss = loss_1 + loss_2
 ```
+You can specify the size of the Gaussian used for regularization by passing an additional argument to the loss function, e.g: `dsnt.js_reg_loss(norm_heatmaps, targets, fwhm=3)`. This argument is the [Full Width at Half Maximum](https://en.wikipedia.org/wiki/Full_width_at_half_maximum), which can be thought of as the radius of the drawn heatmap.

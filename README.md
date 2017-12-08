@@ -28,7 +28,7 @@ from dsnt_snt import DSNT
 The layer can be inserted at the end of a stack of convolutional layers, where the final tensor shape is `[batch, height, width, 1]`.
 The function's input tensor will be rectified, then passed through the transform. `dsnt.dsnt` returns the rectified input heatmaps and the produced coordinates tensor of shape `[batch, x, y]`:
 
-*(Raw Tensorflow(*
+**Raw Tensorflow**
 ```
 norm_heatmaps, coords = dsnt.dsnt(my_tensor)
 ```

@@ -1,5 +1,5 @@
 # Differentiable Spatial to Numerical Transform
-A Tensorflow implementation of the DSNT layer, as taken from the paper "Numerical Coordinate Regression with Convolutional Neural Networks". 
+An unofficial Tensorflow implementation of differentiable spatial to numerical (DSNT) layer, as taken from the paper "Numerical Coordinate Regression with Convolutional Neural Networks". 
 
 Also included is a small [Sonnet](https://github.com/deepmind/sonnet) module wrapper around the DSNT layer.
 

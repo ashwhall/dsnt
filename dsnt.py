@@ -98,9 +98,9 @@ def _softmax2d(target, axes):
         targets - The tensor on which to apply softmax
         axes - An integer or list of integers across which to apply softmax
     '''
-    max_axis = tf.reduce_max(target, axes, keep_dims=True)
+    max_axis = tf.reduce_max(target, axes, keepdims=True)
     target_exp = tf.exp(target-max_axis)
-    normalize = tf.reduce_sum(target_exp, axes, keep_dims=True)
+    normalize = tf.reduce_sum(target_exp, axes, keepdims=True)
     softmax = target_exp / normalize
     return softmax
 

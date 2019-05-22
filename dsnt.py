@@ -62,7 +62,7 @@ def _normalise_heatmap(inputs, method='softmax'):
     inputs = tf.reshape(inputs, tf.shape(inputs)[:3])
 
     # Normalise the values such that the values sum to one for each heatmap
-    normalise = lambda x: tf.div(x, tf.reshape(tf.reduce_sum(x, [1, 2]), [2, 1, 1]))
+    normalise = lambda x: tf.div(x, tf.reshape(tf.reduce_sum(x, [1, 2]), [-1, 1, 1]))
 
     # Perform rectification
     if method == 'softmax':

@@ -57,14 +57,14 @@ def _normalise_heatmap(inputs, method='softmax'):
     '''
     Applies the chosen normalisation/rectification method to the input tensor
     Arguments:
-        inputs - A 4d tensor of shape [batch, height, width, 1] (the learnt heatmap)
+        inputs - A 4d tensor of shape [batch, height, width, channels] (the learnt heatmap)
         method - A string representing the normalisation method. One of those shown below
     '''
     # Remove the final dimension as it's of size 1
-    inputs = tf.reshape(inputs, tf.shape(inputs)[:3])
+#     inputs = tf.reshape(inputs, tf.shape(inputs)[:3])
 
     # Normalise the values such that the values sum to one for each heatmap
-    normalise = lambda x: tf.div(x, tf.reshape(tf.reduce_sum(x, [1, 2]), [-1, 1, 1]))
+    normalise = lambda x: tf.divide(x, tf.reduce_sum(x, axis=[1, 2], keepdims=True))
 
     # Perform rectification
     if method == 'softmax':

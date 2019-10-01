@@ -24,9 +24,11 @@ def dsnt(inputs, method='softmax'):
     width = tf.shape(norm_heatmap)[2]
 
     # Build the DSNT x, y matrices
-    dsnt_x = tf.tile([[(2 * tf.range(1, width+1) - (width + 1)) / width]], [batch_count, height, 1])
+#     dsnt_x = tf.tile([[(2 * tf.range(1, width+1) - (width + 1)) / width]], [batch_count, height, 1])
+    dsnt_x = tf.tile([[tf.range(0, width) / (width-1)]], [batch_count, height, 1])
     dsnt_x = tf.cast(dsnt_x, tf.float32)
-    dsnt_y = tf.tile([[(2 * tf.range(1, height+1) - (height + 1)) / height]], [batch_count, width, 1])
+#     dsnt_y = tf.tile([[(2 * tf.range(1, height+1) - (height + 1)) / height]], [batch_count, width, 1])
+    dsnt_y = tf.tile([[tf.range(0, height) / (height-1)]], [batch_count, width, 1])
     dsnt_y = tf.cast(tf.transpose(dsnt_y, perm=[0, 2, 1]), tf.float32)
 
     # Compute the Frobenius inner product

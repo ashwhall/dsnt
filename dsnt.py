@@ -19,6 +19,7 @@ def dsnt(inputs, method='softmax', output_range='0to1'):
         coords_zipped - A tensor of shape [batch, channels, 2] containing the [x, y] coordinate pairs for each heatmap
     Example:
         Usage as a Keras layer (ignoring heatmap): `keras.layers.Lambda(lambda x: dsnt.dsnt(x, 'softmax')[1])`
+        Should directly follow a Conv2D layer with linear activation.
     '''
     # Rectify and reshape inputs
     norm_heatmap = _normalise_heatmap(inputs, method)

@@ -32,6 +32,8 @@ def dsnt(inputs, method='softmax', output_range='0to1'):
         gen_range = lambda length: tf.range(length) / (length-1)
     elif output_range == '-1to1':
         gen_range = lambda length: (2 * tf.range(1, length+1) - (length+1)) / length
+    else:
+        raise ValueError("Unknown output_range: " + str(output_range))
 
     # Build the DSNT x, y matrices
     dsnt_x = tf.reshape(gen_range(width), [1, 1, -1, 1])

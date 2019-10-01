@@ -5,16 +5,20 @@ Regression with Convolutional Neural Networks"
 
 import tensorflow as tf
 
-def dsnt(inputs, method='softmax'):
+def dsnt(inputs, method='softmax', output_range='0to1'):
     '''
     Differentiable Spatial to Numerical Transform, as taken from the paper "Numerical Coordinate
     Regression with Convolutional Neural Networks"
     Arguments: 
-        inputs - The learnt heatmap. A 3d tensor of shape [batch, height, width]
+        inputs - The learnt heatmap. A 4d tensor of shape [batch, height, width, channels]
         method - A string representing the normalisation method. See `_normalise_heatmap` for available methods
+        output_range - output range for x,y. please choose "0to1" (inclusive range) or "-1to1" (exclusive range)
+            The paper chooses "-1to1" range which includes only numbers between -1 to 1, but exclude -1 and 1.
     Returns:
         norm_heatmap - The given heatmap with normalisation/rectification applied
-        coords_zipped - A tensor of shape [batch, 2] containing the [x, y] coordinate pairs
+        coords_zipped - A tensor of shape [batch, channels, 2] containing the [x, y] coordinate pairs for each heatmap
+    Example:
+        Usage as a Keras layer (ignoring heatmap): `keras.layers.Lambda(lambda x: dsnt.dsnt(x, 'softmax')[1])`
     '''
     # Rectify and reshape inputs
     norm_heatmap = _normalise_heatmap(inputs, method)
@@ -22,21 +26,27 @@ def dsnt(inputs, method='softmax'):
     batch_count = tf.shape(norm_heatmap)[0]
     height = tf.shape(norm_heatmap)[1]
     width = tf.shape(norm_heatmap)[2]
+    channels = norm_heatmap.shape[3]
+
+    if output_range == '0to1':
+        gen_range = lambda length: tf.range(length) / (length-1)
+    elif output_range == '-1to1':
+        gen_range = lambda length: (2 * tf.range(1, length+1) - (length+1)) / length
 
     # Build the DSNT x, y matrices
-#     dsnt_x = tf.tile([[(2 * tf.range(1, width+1) - (width + 1)) / width]], [batch_count, height, 1])
-    dsnt_x = tf.tile([[tf.range(0, width) / (width-1)]], [batch_count, height, 1])
+    dsnt_x = tf.reshape(gen_range(width), [1, 1, -1, 1])
+    dsnt_x = tf.tile(dsnt_x, [batch_count, height, 1, channels])
     dsnt_x = tf.cast(dsnt_x, tf.float32)
-#     dsnt_y = tf.tile([[(2 * tf.range(1, height+1) - (height + 1)) / height]], [batch_count, width, 1])
-    dsnt_y = tf.tile([[tf.range(0, height) / (height-1)]], [batch_count, width, 1])
-    dsnt_y = tf.cast(tf.transpose(dsnt_y, perm=[0, 2, 1]), tf.float32)
+    dsnt_y = tf.reshape(gen_range(height), [1, -1, 1, 1])
+    dsnt_y = tf.tile(dsnt_y, [batch_count, 1, width, channels])
+    dsnt_y = tf.cast(dsnt_y, tf.float32)
 
     # Compute the Frobenius inner product
     outputs_x = tf.reduce_sum(tf.multiply(norm_heatmap, dsnt_x), axis=[1, 2])
     outputs_y = tf.reduce_sum(tf.multiply(norm_heatmap, dsnt_y), axis=[1, 2])
 
     # Zip into [x, y] pairs
-    coords_zipped = tf.stack([outputs_x, outputs_y], axis=1)
+    coords_zipped = tf.stack([outputs_x, outputs_y], axis=-1)
 
     return norm_heatmap, coords_zipped
 
